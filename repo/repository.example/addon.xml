@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<aaddon id="repository.nearlybob" name="nearlybob's Repo" version="1.0.0" provider-name="nearlybob">
+<addon id="repository.nearlybob" name="nearlybob's Repo" version="1.0.0" provider-name="nearlybob">
     <extension point="xbmc.addon.repository" name="Example Repository">
         <dir>
             <info compressed="false">https://raw.githubusercontent.com/nearlybob/nearlybob.github.io/master/matrix/zips/addons.xml</info>
@@ -8,8 +8,8 @@
         </dir>
     </extension>
     <extension point="xbmc.addon.metadata">
-        <summary>REPO_NAME_HERE</summary>
-        <description>DESCRIPTION OF YOUR REPO HERE</description>
+        <summary>Bobs Repo</summary>
+        <description>Bobs Stuff and Other Things</description>
         <disclaimer></disclaimer>
         <platform>all</platform>
         <assets>
