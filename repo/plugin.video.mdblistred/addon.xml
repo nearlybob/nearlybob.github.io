@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="plugin.video.mdblistred" name="MDB Addon" provider-name="Custom" version="1.0.3">
+	<requires>
+		<import addon="xbmc.python" version="3.0.1"/>
+		<import addon="script.module.requests" version="2.19.1"/>
+		<import addon="plugin.video.redlight" version="2.3.5"/>
+	</requires>
+	<extension point="xbmc.python.pluginsource" library="default.py">
+		<provides>video</provides>
+	</extension>
+	<extension point="xbmc.service" library="resources/lib/service.py"/>
+	<extension point="xbmc.addon.metadata">
+		<reuselanguageinvoker>true</reuselanguageinvoker>
+		<summary lang="en">Browse public MDBList lists, play through Red Light</summary>
+		<description lang="en">Standalone browser for MDBList's Popular, Curated, and Official public lists, plus keyword search and paste-a-URL support. Requires Red Light (plugin.video.redlight) to be installed -- playback and all poster/plot/cast metadata are provided by Red Light's own TMDb-backed pipeline. Lists found here can also be exported as independent Red Light Personal Lists.</description>
+		<platform>all</platform>
+		<disclaimer lang="en">This add-on does not host any content. It requires plugin.video.redlight to be installed and enabled, and depends on public, unauthenticated pages on mdblist.com.</disclaimer>
+		<license>GPL-3.0</license>
+		<assets>
+			<icon>resources/media/icon.png</icon>
+			<fanart>resources/media/fanart.jpg</fanart>
+		</assets>
+	</extension>
+</addon>

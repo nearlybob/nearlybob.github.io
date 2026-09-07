@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+  <category label="mpv (Windows)">
+    <setting id="mpv_path" type="executable" label="Path to mpv.exe (opens a file browser)" default="C:\mpv\mpv.exe"/>
+  </category>
+  <category label="mpv (Android / Fire TV)">
+    <setting id="android_mpv_variant" type="enum" label="mpv app to download" values="mpv-android (touch devices)|mpvNova (Android TV / Fire TV boxes)" default="0"/>
+    <setting id="android_mpv_package" type="text" label="mpv app package name (auto-filled when you use Download mpv for Android)" default="is.xyz.mpv"/>
+  </category>
+  <category label="PiP window (Windows only)">
+    <setting id="pip_width_pct" type="number" label="PiP maximum width (% of screen) - shape follows the real video, can scale up to full screen" default="40"/>
+    <setting id="pip_corner" type="enum" label="Starting corner" values="Top-left|Top-right|Bottom-left|Bottom-right" default="3"/>
+    <setting id="pip_muted" type="bool" label="Start PiP muted (turning this off mutes the main stream instead, so only one plays at a time)" default="true"/>
+    <setting id="kodi_window_title" type="text" label="Kodi window title (advanced - only change if Swap can't find Kodi's window; check Task Manager > Details)" default="Kodi"/>
+  </category>
+  <category label="Diagnostics">
+    <setting id="verbose_logging" type="bool" label="Verbose logging (also enables Kodi's own debug logging while on - restored to its prior state when turned back off, unless you already had it on yourself)" default="false"/>
+  </category>
+</settings>
