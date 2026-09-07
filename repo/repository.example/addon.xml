@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addon id="repository.nearlybob" name="nearlybob's Repo" version="1.0.0" provider-name="nearlybob">
-    <extension point="xbmc.addon.repository" name="Example Repository">
+    <extension point="xbmc.addon.repository" name="Bobs Repo">
         <dir>
             <info compressed="false">https://raw.githubusercontent.com/nearlybob/nearlybob.github.io/master/matrix/zips/addons.xml</info>
             <checksum>https://raw.githubusercontent.com/nearlybob/nearlybob.github.io/master/matrix/zips/addons.xml.md5</checksum>
