@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+  <category label="Kodi web server">
+    <setting id="kodi_username" type="text" label="Username" default="kodi"/>
+    <setting id="kodi_password" type="text" label="Password" option="hidden" default=""/>
+  </category>
+  <category label="Help">
+    <setting label="View Help" type="action" action="RunScript(service.voicesearch,mode=help)"/>
+  </category>
+</settings>

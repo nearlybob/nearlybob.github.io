@@ -1,0 +1,9 @@
+Listens for Kodi's on-screen keyboard and fills it using speech recognition.
+
+Python and required packages are installed into an isolated environment on first run.
+
+Requires Kodi's web server to be enabled (Settings > Services > Control), with a matching username and password entered via this addon's own Settings (Configure) screen -- voice search will not work until both are set correctly.
+
+Restart Kodi after any update or settings change for it to take effect.
+
+If automatic setup ever fails, you can retry it manually from Add-ons > Program Add-ons > Kodi Voice Search, which opens a visible window showing exactly what happens.
