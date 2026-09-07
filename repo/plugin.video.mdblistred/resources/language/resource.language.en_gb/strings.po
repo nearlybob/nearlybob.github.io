@@ -1,7 +1,0 @@
-# Kodi Media Center language file
-msgid ""
-msgstr ""
-
-msgctxt "Addon Summary"
-msgid "Browse public MDBList lists, play through Red Light"
-msgstr ""
