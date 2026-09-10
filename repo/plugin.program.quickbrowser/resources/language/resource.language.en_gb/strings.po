@@ -1,0 +1,76 @@
+# Kodi Media Center language file
+msgid ""
+msgstr ""
+
+msgctxt "#30000"
+msgid "General"
+msgstr ""
+
+msgctxt "#30002"
+msgid "Chrome executable path"
+msgstr ""
+
+msgctxt "#30003"
+msgid "Cursor step size (pixels per press)"
+msgstr ""
+
+msgctxt "#30004"
+msgid "Wait after launching Chrome (ms) before capturing input"
+msgstr ""
+
+msgctxt "#30005"
+msgid "Max speed multiplier (cursor acceleration when holding a direction)"
+msgstr ""
+
+msgctxt "#30006"
+msgid "Scroll notches per press when cursor hits top/bottom of screen"
+msgstr ""
+
+msgctxt "#30007"
+msgid "Silence Kodi UI navigation sounds while this addon is running"
+msgstr ""
+
+msgctxt "#30010"
+msgid "Websites"
+msgstr ""
+
+msgctxt "#30011"
+msgid "Site 1 - Name"
+msgstr ""
+
+msgctxt "#30012"
+msgid "Site 1 - URL"
+msgstr ""
+
+msgctxt "#30013"
+msgid "Site 2 - Name (leave as (unused) to disable this slot)"
+msgstr ""
+
+msgctxt "#30014"
+msgid "Site 2 - URL"
+msgstr ""
+
+msgctxt "#30015"
+msgid "Site 3 - Name (leave as (unused) to disable this slot)"
+msgstr ""
+
+msgctxt "#30016"
+msgid "Site 3 - URL"
+msgstr ""
+
+msgctxt "#30017"
+msgid "Site 4 - Name (leave as (unused) to disable this slot)"
+msgstr ""
+
+msgctxt "#30018"
+msgid "Site 4 - URL"
+msgstr ""
+
+msgctxt "#30019"
+msgid "Site 5 - Name (leave as (unused) to disable this slot)"
+msgstr ""
+
+msgctxt "#30020"
+msgid "Site 5 - URL"
+msgstr ""
+

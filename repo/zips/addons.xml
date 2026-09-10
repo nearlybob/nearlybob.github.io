@@ -1,5 +1,19 @@
 <?xml version='1.0' encoding='utf-8'?>
-<addons><addon id="plugin.program.shortcutmanager" name="Shortcut Manager" version="1.1.2" provider-name="Bob">
+<addons><addon id="plugin.program.quickbrowser" name="Quick Browser" version="1.0.0" provider-name="Bob">
+  <requires>
+    <import addon="xbmc.python" version="3.0.0" />
+  </requires>
+  <extension point="xbmc.python.script" library="default.py" />
+  <extension point="xbmc.addon.metadata">
+    <platform>windx</platform>
+    <summary lang="en_GB">Pick from a list of websites, launch fullscreen in Chrome, and control the mouse with the Kodi remote</summary>
+    <description lang="en_GB">Shows a menu of configured websites, then launches your choice fullscreen in Chrome (kiosk mode) and lets you move the real Windows mouse cursor and click using Kodi's remote directional buttons. Configure up to 5 sites in addon settings. Windows only.</description>
+    <license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
+    <assets>
+      <icon>icon.png</icon>
+    </assets>
+  </extension>
+</addon><addon id="plugin.program.shortcutmanager" name="Shortcut Manager" version="1.1.2" provider-name="Bob">
     <requires>
         <import addon="script.module.pil" />
         <import addon="script.module.six" />
