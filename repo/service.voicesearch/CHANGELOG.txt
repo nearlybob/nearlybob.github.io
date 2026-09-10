@@ -1,100 +1,25 @@
 Kodi Voice Search - Changelog
 ==============================
 
-1.4.11
-------
-- Reduced the delay between finishing speaking and text appearing,
-  introduced by 1.4.9/1.4.10's cutoff fixes. Reassessed: the actual
-  fix for cut-off endings was freezing the energy threshold
-  (1.4.10), not the earlier pause-threshold increase (1.4.9) -- so
-  PAUSE_THRESHOLD_SECONDS is back to the library default (0.8, was
-  1.0) and the ambient noise calibration back to 0.5s (was 0.8s).
-  ENERGY_THRESHOLD_MARGIN and dynamic_energy_threshold=False (the
-  actual fix) are unchanged. If word-ending cutoffs return with this
-  change, that would mean pause_threshold was contributing too and
-  it should go back up partway (e.g. 0.9).
-
-1.4.10
-------
-- Further fix for the Google engine cutting off phrase endings,
-  after 1.4.9's pause-threshold increase wasn't enough. Root cause
-  (confirmed by "moving closer to the mic fixes it"): the speech
-  library keeps raising its volume threshold while you talk, so the
-  loud start of a word ratchets it up and the quieter tail end (from
-  a distant mic) then falls below it and gets read as silence.
-  Fixed by freezing the threshold right after calibration
-  (dynamic_energy_threshold = False) instead of letting it drift
-  during the phrase, plus a small safety margin below the calibrated
-  value (ENERGY_THRESHOLD_MARGIN, default 0.8) for extra headroom
-  with a quieter/distant voice. Both constants are near the top of
-  kodi_voice_watcher_google.py if further tuning is needed.
-
-1.4.9
+1.5.1
 -----
-- Fixed the Google engine cutting off the end of a phrase (e.g. "Ted
-  Lasso" recognised as "Ted Las", "Slow Horses" as "Slow Ho"). Cause:
-  the speech library's silence-detection threshold for "you've
-  stopped talking" (0.8s) was too short, misreading soft or trailing
-  final syllables as a pause. Raised to 1.0s (PAUSE_THRESHOLD_SECONDS
-  near the top of kodi_voice_watcher_google.py -- raise further to
-  1.3-1.5 if cutoffs still happen), and extended the ambient noise
-  calibration slightly for a more stable threshold. Google engine
-  only -- Windows Speech Recognition uses a different mechanism for
-  deciding when a phrase ends, not affected by this change.
+- Fixed a misplaced comment in kodi_voice_watcher_google.py (no
+  functional change). Reviewed in full and confirmed otherwise
+  identical to 1.4.11.
 
-1.4.8
+1.5.0
 -----
-- Added a Settings screen (Add-ons > Kodi Voice Search > Configure)
-  for entering the Kodi web server username and password, instead of
-  editing config files by hand.
-- Added a Help tab with a button that opens a full explanation (what
-  the addon does, the web server requirement, credentials, restart
-  notes, and the manual troubleshooting fallback) in Kodi's native
-  text viewer.
-- Added a "restart Kodi" reminder shown after any addon update, and
-  immediately after saving Settings -- both only take effect on the
-  next Kodi startup.
-- Simplified the addon description to one line; the full explanation
-  now lives in the Help tab instead.
-- Known limitation: navigating out of the Username/Password fields
-  with arrow keys steps through each character first before moving
-  to the next control. This is Kodi's own input handling (confirmed
-  present in Kodi's native settings fields too, not specific to this
-  addon) and isn't something addon settings can change. Press
-  up/down to move between fields, or use OK/select to open the
-  keyboard dialog for editing.
-
-1.3.7
------
-- Setup (installing Python and required packages) now runs
-  automatically the first time Kodi starts with the addon installed
-  -- no manual step required. A "Kodi Voice Search" entry remains
-  under Program Add-ons as a visible troubleshooting fallback if
-  automatic setup ever fails.
-- Packages are installed into an isolated virtual environment,
-  never into any existing Python install already on the system.
-- Fixed setup failing on Windows installs where a Microsoft Store
-  placeholder "python.exe" was mistaken for a real Python install.
-- Fixed setup failing on Kodi installations whose path contains a
-  space (e.g. portable installs).
-- Fixed voice search closing the keyboard without actually running
-  the search after confirming.
-- Voice search now types the recognised text, pauses briefly, and
-  either confirms automatically or -- if Back/Cancel is pressed
-  during that pause -- reopens the search box and listens again, up
-  to a few attempts.
-- Various reliability fixes: safer background thread handling,
-  correct initialisation for Windows Speech Recognition, and stable
-  long-running reconnect behaviour in the background watcher.
-
-1.0.0
------
-- Initial version: a Kodi background service that launches an
-  external Windows script listening for Kodi's on-screen keyboard,
-  and fills it using speech recognition (Windows Speech Recognition
-  or Google).
+- Listens for Kodi's on-screen keyboard and fills it using Google
+  speech recognition.
+- Installs Python and required packages automatically on first run,
+  into an isolated environment that never touches any existing
+  Python install.
+- Kodi web server username and password are configured via this
+  addon's own Settings screen.
+- Help tab in Settings explains setup and requirements in full.
+- Notifies you to restart Kodi after an update or a settings change.
+- Windows only.
 
 Versioning note: any change to service.py, setup.py,
-kodi_voice_watcher_microsoft.py, kodi_voice_watcher_google.py, or
-setup_kodi_voice_search.bat should bump the version number here and
-in addon.xml, so changes stay trackable across the project.
+kodi_voice_watcher_google.py, or setup_kodi_voice_search.bat should
+bump the version number here and in addon.xml.

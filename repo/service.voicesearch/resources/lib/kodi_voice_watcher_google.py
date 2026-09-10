@@ -1,5 +1,5 @@
 """
-Version: 1.4.11
+Version: 1.5.1
 
 Background watcher: automatically starts voice capture (Google's free web speech API,
 via the SpeechRecognition library) whenever Kodi opens an on-screen keyboard, and
@@ -116,6 +116,8 @@ CONFIRM_DELAY_SECONDS = 1.0
 # This is the number of retries AFTER the first attempt (so the
 # default of 3 allows up to 4 total listen attempts). Set to 0 for
 # exactly one attempt with no auto-reopen on cancel.
+MAX_RETRIES = 3
+
 # How long a silence has to last before the recognizer decides you've
 # finished speaking and stops recording. The library's own default is
 # 0.8. Kept at the default here since the actual cause of cut-off
@@ -134,8 +136,6 @@ PAUSE_THRESHOLD_SECONDS = 0.8
 # with a distant mic; raise it (e.g. 1.2) if background noise is
 # being mistaken for speech.
 ENERGY_THRESHOLD_MARGIN = 0.8
-
-MAX_RETRIES = 3
 
 _listen_lock = threading.Lock()
 
