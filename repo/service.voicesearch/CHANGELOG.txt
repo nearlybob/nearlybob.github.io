@@ -1,6 +1,10 @@
 Kodi Voice Search - Changelog
 ==============================
 
+1.5.2
+-----
+- Fixed the icon not showing in the repository browsing screen.
+
 1.5.1
 -----
 - Fixed a misplaced comment in kodi_voice_watcher_google.py (no

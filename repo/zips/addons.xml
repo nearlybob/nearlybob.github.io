@@ -216,7 +216,7 @@ Not currently supported: RedLight and Mad Titan Sports were briefly added and th
     <platform>all</platform>
     <license>MIT</license>
   </extension>
-</addon><addon id="service.voicesearch" name="Kodi Voice Search" version="1.5.1" provider-name="Bob">
+</addon><addon id="service.voicesearch" name="Kodi Voice Search" version="1.5.2" provider-name="Bob">
     <requires>
         <import addon="xbmc.python" version="3.0.0" />
     </requires>
@@ -229,5 +229,8 @@ Not currently supported: RedLight and Mad Titan Sports were briefly added and th
         <description lang="en_GB">Listens for Kodi's on-screen keyboard and fills it using speech recognition. Windows only.</description>
         <platform>windows</platform>
         <license>MIT</license>
+        <assets>
+            <icon>icon.png</icon>
+        </assets>
     </extension>
 </addon></addons>
