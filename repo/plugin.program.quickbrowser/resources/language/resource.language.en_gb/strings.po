@@ -30,6 +30,14 @@ msgctxt "#30007"
 msgid "Silence Kodi UI navigation sounds while this addon is running"
 msgstr ""
 
+msgctxt "#30008"
+msgid "Switch Kodi to fullscreen-window mode while this addon is running (restored on exit)"
+msgstr ""
+
+msgctxt "#30009"
+msgid "Use real Chrome navigation tracking for Back (falls back to click-counting if unavailable)"
+msgstr ""
+
 msgctxt "#30010"
 msgid "Websites"
 msgstr ""
@@ -72,5 +80,17 @@ msgstr ""
 
 msgctxt "#30020"
 msgid "Site 5 - URL"
+msgstr ""
+
+msgctxt "#30021"
+msgid "Show full setup instructions (extension folder path, Chrome profile command)"
+msgstr ""
+
+msgctxt "#30022"
+msgid "Setup"
+msgstr ""
+
+msgctxt "#30023"
+msgid "Create desktop shortcuts (Chrome profile + extension folder - easier than typing paths)"
 msgstr ""
 

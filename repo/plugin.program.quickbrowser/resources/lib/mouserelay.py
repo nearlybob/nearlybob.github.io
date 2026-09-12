@@ -13,6 +13,8 @@ Windows only.
 import ctypes
 import ctypes.wintypes as wintypes
 
+import xbmc
+
 user32 = ctypes.windll.user32
 
 MOUSEEVENTF_LEFTDOWN = 0x0002
@@ -60,7 +62,25 @@ def move_cursor_relative(dx, dy):
     target_y = y + dy
     new_x = max(min_x, min(max_x, target_x))
     new_y = max(min_y, min(max_y, target_y))
-    user32.SetCursorPos(new_x, new_y)
+    result = user32.SetCursorPos(new_x, new_y)
+
+    # Diagnostic: confirms whether SetCursorPos actually took effect
+    # at the OS level, rather than assuming it did just because the
+    # call didn't raise. Logged at DEBUG since this fires on every
+    # single directional press - would flood the log at a higher
+    # level. SetCursorPos returns a nonzero value on success (BOOL);
+    # a genuine mismatch between requested and actual position after
+    # the call points at something blocking the move at the OS level
+    # (e.g. another process/driver holding cursor control) rather
+    # than a bug in this addon's own arithmetic.
+    actual_x, actual_y = get_cursor_pos()
+    xbmc.log(
+        '[plugin.program.quickbrowser] move_cursor_relative: requested ({},{}) -> target ({},{}), '
+        'SetCursorPos returned {}, actual position after call: ({},{})'.format(
+            dx, dy, new_x, new_y, result, actual_x, actual_y
+        ),
+        xbmc.LOGDEBUG,
+    )
 
     hit_edge = (dx != 0 and new_x == x and target_x != x) or (
         dy != 0 and new_y == y and target_y != y

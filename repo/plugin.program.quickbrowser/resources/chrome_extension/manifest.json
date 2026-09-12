@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "Quick Browser Navigation Tracker",
+  "version": "1.2.0",
+  "description": "Reports real page-navigation depth to a local helper so Quick Browser's Back button knows when there's genuinely somewhere to go back to, and performs back-navigation directly via chrome.tabs.goBack() when asked, instead of relying only on a keystroke pages can block.",
+  "kiosk_enabled": true,
+  "permissions": ["webNavigation", "tabs"],
+  "host_permissions": ["http://localhost/*"],
+  "background": {
+    "service_worker": "background.js"
+  }
+}
