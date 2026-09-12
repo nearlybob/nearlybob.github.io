@@ -1,5 +1,5 @@
 """
-Version: 1.5.1
+Version: 1.5.4
 
 Background watcher: automatically starts voice capture (Google's free web speech API,
 via the SpeechRecognition library) whenever Kodi opens an on-screen keyboard, and
@@ -89,6 +89,39 @@ def _load_credential_overrides():
 
 _load_credential_overrides()
 
+# --- Persistent logging ----------------------------------------------
+# This script runs silently via pythonw.exe (no console), so print()
+# alone goes nowhere useful once launched by the Kodi service addon --
+# it's only visible when run manually from a terminal. This writes the
+# same messages to a log file too, so failures can actually be
+# diagnosed after the fact instead of only inferred indirectly from
+# kodi.log (which has no visibility into this process at all).
+_LOG_PATH = None
+if len(sys.argv) > 1:
+    _LOG_PATH = os.path.join(sys.argv[1], "watcher_log.txt")
+
+_LOG_MAX_BYTES = 2 * 1024 * 1024  # 2MB -- truncate rather than grow forever
+
+
+def log(message: str):
+    print(message)
+    if not _LOG_PATH:
+        return
+    try:
+        if os.path.exists(_LOG_PATH) and os.path.getsize(_LOG_PATH) > _LOG_MAX_BYTES:
+            with open(_LOG_PATH, "r", encoding="utf-8", errors="replace") as f:
+                f.seek(_LOG_MAX_BYTES // 2)
+                tail = f.read()
+            with open(_LOG_PATH, "w", encoding="utf-8") as f:
+                f.write("...(log truncated)...\n")
+                f.write(tail)
+        timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
+        with open(_LOG_PATH, "a", encoding="utf-8") as f:
+            f.write(f"{timestamp} - {message}\n")
+    except Exception:
+        pass  # logging must never itself crash the watcher
+
+
 KODI_HTTP_URL = f"http://{KODI_HOST}:{KODI_HTTP_PORT}/jsonrpc"
 KODI_WS_URL = f"ws://{KODI_HOST}:{KODI_WS_PORT}/jsonrpc"
 
@@ -103,6 +136,26 @@ CURRENT_WINDOW_FILTER = None
 # if it's wrong. Set to 0 to submit instantly, or None to type the
 # text but require pressing OK yourself.
 CONFIRM_DELAY_SECONDS = 1.0
+
+# How to confirm (press OK) after typing. Input.Select triggers the
+# same underlying "select" action a real button press or mouse click
+# uses; the alternative is a second Input.SendText call with
+# done=true. Set to False to use that instead.
+USE_INPUT_SELECT_TO_CONFIRM = True
+
+# Whether to poll Kodi during the delay above to detect you pressing
+# Back/Cancel on your remote, and auto-restart voice search if so.
+# DISABLED BY DEFAULT: real-world testing showed the detection method
+# (polling Window.IsActive(virtualkeyboard)) reporting the keyboard as
+# closed 100% of the time against Nimbus's specific search dialog --
+# not intermittently, every single attempt -- which meant the search
+# was NEVER actually confirming; it just kept "cancelling" and
+# retrying until it gave up. That's worse than not having the feature
+# at all. Disabled until the detection method itself can be verified
+# against Nimbus's dialog specifically. With this off, send_text_and_wait
+# always confirms after the delay, matching the simpler behaviour
+# confirmed working before the cancel/retry feature was added.
+ENABLE_CANCEL_DETECTION = False
 
 # If you press Back/Cancel on your remote while the typed text is
 # showing (within CONFIRM_DELAY_SECONDS), this reopens Nimbus's search
@@ -137,7 +190,25 @@ PAUSE_THRESHOLD_SECONDS = 0.8
 # being mistaken for speech.
 ENERGY_THRESHOLD_MARGIN = 0.8
 
+# Minimum time that must pass after finishing one request before a new
+# Input.OnInputRequested is treated as a genuine new search, rather
+# than an echo of our own confirm (see handle_input_requested for the
+# real-world evidence behind this). Short enough not to block a
+# genuinely quick deliberate re-search.
+RETRIGGER_COOLDOWN_SECONDS = 2.5
+
+# If True, this script handles exactly one request then exits --
+# service.py relaunches a fresh instance immediately after (see
+# service.py's respawn loop). If False, it runs indefinitely,
+# reconnecting on its own if disconnected (see the loop at the bottom
+# of start_watcher()). These must be changed together: a watcher that
+# exits with nothing relaunching it leaves nothing listening for the
+# next search.
+EXIT_AFTER_ONE_REQUEST = True
+_handled_one_request = threading.Event()
+
 _listen_lock = threading.Lock()
+_last_completed_time = 0.0
 
 
 def listen_once():
@@ -158,7 +229,7 @@ def listen_once():
         # noise, and doesn't drift upward mid-phrase.
         recognizer.dynamic_energy_threshold = False
 
-        print("Keyboard opened -- listening (Google speech API)...")
+        log("Keyboard opened -- listening (Google speech API)...")
         try:
             audio = recognizer.listen(source, timeout=5, phrase_time_limit=6)
         except sr.WaitTimeoutError:
@@ -167,12 +238,12 @@ def listen_once():
     try:
         return recognizer.recognize_google(audio)
     except sr.UnknownValueError:
-        print("Could not understand audio.")
+        log("Could not understand audio.")
         return None
     except sr.RequestError as e:
         # Raised when Google's API can't be reached (no internet,
         # rate-limited, etc.) -- distinct from "didn't understand you".
-        print(f"Could not reach Google's speech API: {e}")
+        log(f"Could not reach Google's speech API: {e}")
         return None
 
 
@@ -214,32 +285,72 @@ def trigger_nimbus_search() -> dict:
     )
 
 
+def get_nimbus_history_count() -> str:
+    """DIAGNOSTIC ONLY -- reads nothing we act on, just logs it.
+    Nimbus's own source (search_utils.py) only increments
+    Window(10000).Property('nimbus.search.history.count') when its
+    add_spath_to_database() actually runs, which only happens if
+    keyboard.isConfirmed() was True on NIMBUS's side. Comparing this
+    value before and after our confirm is a USEFUL but NOT fully
+    reliable signal for whether the search registered -- it has shown
+    false negatives (kodi.log has confirmed a search's provider
+    queries firing correctly when this read UNCHANGED), most likely
+    due to Kodi's info-label caching. Treat "changed" as a good sign
+    and "unchanged" as inconclusive, not proof of failure."""
+    result = call_kodi_jsonrpc(
+        "XBMC.GetInfoLabels",
+        {"labels": ["Window(10000).Property(nimbus.search.history.count)"]},
+    )
+    try:
+        return result["result"]["Window(10000).Property(nimbus.search.history.count)"]
+    except (KeyError, TypeError):
+        return "?"
+
+
 def send_text_and_wait(text: str) -> str:
     """Type the recognised text, then watch during CONFIRM_DELAY_SECONDS:
-    - if the keyboard gets cancelled (closed) during that window,
-      return "cancelled" without confirming.
+    - if ENABLE_CANCEL_DETECTION is on and the keyboard gets cancelled
+      (closed) during that window, return "cancelled" without
+      confirming.
     - otherwise confirm (press OK) once the delay elapses and return
       "confirmed".
     - if CONFIRM_DELAY_SECONDS is None, just types and returns "manual"
       -- you press OK yourself.
     """
-    call_kodi_jsonrpc("Input.SendText", {"text": text, "done": False})
+    history_before = get_nimbus_history_count()
+
+    type_result = call_kodi_jsonrpc("Input.SendText", {"text": text, "done": False})
+    log(f"Typed text via Input.SendText, response: {type_result}")
 
     if CONFIRM_DELAY_SECONDS is None:
         return "manual"
 
-    poll_interval = 0.15
-    elapsed = 0.0
-    while elapsed < CONFIRM_DELAY_SECONDS:
-        time.sleep(poll_interval)
-        elapsed += poll_interval
+    if ENABLE_CANCEL_DETECTION:
+        poll_interval = 0.15
+        elapsed = 0.0
+        while elapsed < CONFIRM_DELAY_SECONDS:
+            time.sleep(poll_interval)
+            elapsed += poll_interval
+            if not keyboard_is_open():
+                return "cancelled"
         if not keyboard_is_open():
             return "cancelled"
+    else:
+        time.sleep(CONFIRM_DELAY_SECONDS)
 
-    if not keyboard_is_open():
-        return "cancelled"
+    if USE_INPUT_SELECT_TO_CONFIRM:
+        confirm_result = call_kodi_jsonrpc("Input.Select", {})
+        log(f"Confirmed via Input.Select, response: {confirm_result}")
+    else:
+        confirm_result = call_kodi_jsonrpc("Input.SendText", {"text": text, "done": True})
+        log(f"Confirmed via Input.SendText, response: {confirm_result}")
 
-    call_kodi_jsonrpc("Input.SendText", {"text": text, "done": True})
+    history_after = get_nimbus_history_count()
+    log(
+        f"Nimbus search history count -- before: {history_before!r}, "
+        f"after: {history_after!r} "
+        f"({'CHANGED' if history_after != history_before else 'UNCHANGED (inconclusive -- see get_nimbus_history_count)'})"
+    )
     return "confirmed"
 
 
@@ -252,20 +363,54 @@ def get_current_window_name() -> str:
 
 
 def handle_input_requested():
+    global _last_completed_time
+    log("Input.OnInputRequested received -- keyboard opened.")
+
     # Skip (rather than queue up behind) an overlapping trigger --
     # e.g. a second keyboard-opened notification arriving while we're
     # already mid-listen for a previous one. Also avoids two
     # simultaneous sr.Microphone() opens fighting over the same
     # input device.
     if not _listen_lock.acquire(blocking=False):
-        print("Already listening for a previous request -- ignoring this one.")
+        log("Already listening for a previous request -- ignoring this one.")
         return
 
     try:
+        # Real-world evidence (watcher_log.txt) showed a fresh
+        # Input.OnInputRequested arriving within ~0-1 second of our OWN
+        # confirm completing, consistent with our own Input.SendText
+        # confirm somehow causing Kodi to broadcast another "keyboard
+        # opened" notification, which this watcher then treated as a
+        # genuine new request and started listening again (catching
+        # background noise/silence).
+        #
+        # IMPORTANT: this check MUST happen here, inside the lock,
+        # not before acquiring it. Checking it beforehand created a
+        # race: if an echo notification arrived while the original
+        # request was still finishing (still holding the lock, still
+        # waiting on its own confirm call), the echo's cooldown check
+        # could read the timestamp before the original thread had
+        # updated it -- see a stale value, wrongly pass the check --
+        # and then successfully acquire the lock a moment later once
+        # the original thread released it. Confirmed happening in
+        # practice: some echoes were caught, others slipped through,
+        # with no code difference between them other than this timing
+        # gap. Checking the cooldown only after the lock is held closes
+        # that gap entirely, since no other thread can be mid-update
+        # of _last_completed_time while this one holds the lock.
+        since_last = time.time() - _last_completed_time
+        if since_last < RETRIGGER_COOLDOWN_SECONDS:
+            log(
+                f"Ignoring keyboard -- fired only {since_last:.1f}s after the "
+                "previous request finished (likely an echo of our own confirm, "
+                "not a real new search)."
+            )
+            return
+
         if CURRENT_WINDOW_FILTER is not None:
             current = get_current_window_name()
             if CURRENT_WINDOW_FILTER.lower() not in current.lower():
-                print(f"Ignoring keyboard (current window: {current!r})")
+                log(f"Ignoring keyboard (current window: {current!r})")
                 return
 
         attempts = 0
@@ -273,32 +418,34 @@ def handle_input_requested():
             attempts += 1
             text = listen_once()
             if not text:
-                print("No speech recognised in time.")
+                log("No speech recognised in time.")
                 return
 
-            print(f"Recognised: {text!r}")
+            log(f"Recognised: {text!r}")
             outcome = send_text_and_wait(text)
 
             if outcome == "confirmed":
-                print("Search confirmed.")
+                log("Search confirmed.")
                 return
             if outcome == "manual":
-                print("Text typed -- press OK on the keyboard to search.")
+                log("Text typed -- press OK on the keyboard to search.")
                 return
             if outcome == "cancelled":
                 if attempts > MAX_RETRIES:
-                    print(f"Gave up after {attempts} cancelled attempt(s).")
+                    log(f"Gave up after {attempts} cancelled attempt(s).")
                     return
-                print("Keyboard was cancelled -- restarting voice search.")
+                log("Keyboard was cancelled -- restarting voice search.")
                 trigger_nimbus_search()
                 time.sleep(0.6)  # give the fresh keyboard a moment to open
                 continue
     except Exception as e:
         # Never let this thread die silently -- always leave a trace
         # in the console explaining what went wrong.
-        print(f"Error while handling input request: {e}")
+        log(f"Error while handling input request: {e}")
     finally:
+        _last_completed_time = time.time()
         _listen_lock.release()
+        _handled_one_request.set()
 
 
 def on_message(ws, message):
@@ -313,18 +460,40 @@ def on_message(ws, message):
 
 
 def on_error(ws, error):
-    print("WebSocket error:", error)
+    log(f"WebSocket error: {error}")
 
 
 def on_close(ws, close_status_code, close_msg):
-    print("Disconnected from Kodi.")
+    log("Disconnected from Kodi.")
 
 
 def on_open(ws):
-    print(f"Connected to Kodi at {KODI_WS_URL}. Waiting for a keyboard to open...")
+    log(f"Connected to Kodi at {KODI_WS_URL}. Waiting for a keyboard to open...")
 
 
 def start_watcher():
+    if EXIT_AFTER_ONE_REQUEST:
+        # Connect, handle exactly one real request, then let the whole
+        # script terminate -- service.py's respawn loop starts a fresh
+        # instance immediately after. See the comment on
+        # EXIT_AFTER_ONE_REQUEST above for why.
+        ws = websocket.WebSocketApp(
+            KODI_WS_URL,
+            on_open=on_open,
+            on_message=on_message,
+            on_error=on_error,
+            on_close=on_close,
+        )
+
+        def watchdog():
+            _handled_one_request.wait()
+            log("Handled one request -- closing connection so this process can exit.")
+            ws.close()
+
+        threading.Thread(target=watchdog, daemon=True).start()
+        ws.run_forever()
+        return
+
     # Loop rather than reconnecting via recursion -- this script is
     # meant to run indefinitely (days/weeks), and recursive reconnects
     # would slowly grow the call stack until Python's recursion limit
@@ -338,7 +507,7 @@ def start_watcher():
             on_close=on_close,
         )
         ws.run_forever()
-        print("Reconnecting in 5s...")
+        log("Reconnecting in 5s...")
         time.sleep(5)
 
 

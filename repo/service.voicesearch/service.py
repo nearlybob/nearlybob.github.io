@@ -5,6 +5,11 @@ Kodi service addon: launches the external voice-search watcher script
 interpreter) when Kodi starts, and terminates it cleanly when Kodi
 shuts down.
 
+The watcher process is relaunched after every search rather than
+left running indefinitely (see EXIT_AFTER_ONE_REQUEST in the watcher
+scripts). This also doubles as crash recovery: if the watcher process
+ever exits unexpectedly, main() below relaunches it automatically.
+
 If the required Python/packages aren't present yet, this automatically
 runs the bundled setup .bat in the background (no menu click needed),
 shows a Kodi notification while it works, and starts the watcher the
@@ -38,6 +43,11 @@ FILES this addon reads/writes, all under this addon's userdata folder
   - installed_version.txt : tracks the last-run addon version, used to
                              show a one-time "please restart Kodi" note
                              after an update.
+  - watcher_log.txt        : written by the watcher script itself (not
+                              this service) -- persistent log of every
+                              trigger, recognised phrase, and JSON-RPC
+                              response, since the watcher runs silently
+                              via pythonw.exe with no visible console.
 """
 
 import os
@@ -381,30 +391,59 @@ def main():
 
     monitor = VoiceSearchMonitor()
     proc_holder = {"proc": None}
+    shutting_down = threading.Event()
 
-    def worker():
+    def respawn_loop():
         try:
             check_for_update_and_notify()
-            proc_holder["proc"] = start_watcher_with_auto_setup(engine, config_settings)
         except Exception as e:
-            # start_watcher_with_auto_setup only explicitly handles
-            # FileNotFoundError -- anything else (PermissionError,
-            # OSError, etc.) would otherwise propagate out of this
-            # thread silently: no log entry, no notification, nothing.
-            # Since this runs in a background thread, an unhandled
-            # exception here would be invisible rather than just
-            # inconvenient.
-            log(f"Unexpected error while starting watcher: {e}", xbmc.LOGERROR)
+            log(f"Unexpected error during update check: {e}", xbmc.LOGERROR)
+
+        while not shutting_down.is_set():
+            try:
+                proc = start_watcher_with_auto_setup(engine, config_settings)
+            except Exception as e:
+                # start_watcher_with_auto_setup only explicitly handles
+                # FileNotFoundError -- anything else (PermissionError,
+                # OSError, etc.) would otherwise propagate out of this
+                # thread silently.
+                log(f"Unexpected error while starting watcher: {e}", xbmc.LOGERROR)
+                proc = None
+
+            if proc is None:
+                # Setup or launch failed outright -- don't tight-loop
+                # retrying forever. setup_failed.flag already covers
+                # retrying on a future Kodi startup, or manually via
+                # Program Add-ons in the meantime.
+                log(
+                    "Watcher could not be started -- not retrying further "
+                    "this session.",
+                    xbmc.LOGERROR,
+                )
+                return
+
+            proc_holder["proc"] = proc
+
+            # Always wait for and respawn after ANY exit -- whether
+            # that's the watcher exiting after handling one request
+            # (see EXIT_AFTER_ONE_REQUEST in the watcher scripts) or an
+            # unexpected crash. One unconditional path correctly covers
+            # both cases with no separate flag to keep in sync.
+            proc.wait()
+            if not shutting_down.is_set():
+                log("Watcher process exited -- relaunching for the next request.")
+                time.sleep(0.5)  # brief pause before respawn
 
     # Run in a thread so a first-time setup (which can take minutes)
     # never blocks this service from responding to Kodi shutdown.
-    t = threading.Thread(target=worker, daemon=True)
+    t = threading.Thread(target=respawn_loop, daemon=True)
     t.start()
 
     while not monitor.abortRequested():
         if monitor.waitForAbort(5):
             break
 
+    shutting_down.set()
     log("Kodi is shutting down -- stopping watcher process (if running)")
     proc = proc_holder.get("proc")
     if proc is not None:

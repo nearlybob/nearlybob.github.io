@@ -1,6 +1,23 @@
 Kodi Voice Search - Changelog
 ==============================
 
+1.5.4
+-----
+- Cleaned up dead code and simplified overly long internal comments.
+  No functional changes.
+
+1.5.3
+-----
+- Fixed voice search sometimes not actually running the search after
+  confirming.
+- Fixed the watcher occasionally listening again right after a
+  successful search.
+- Confirms searches using Kodi's Input.Select action.
+- The watcher now restarts automatically after each search, and
+  recovers automatically if it ever crashes.
+- Added persistent logging (watcher_log.txt) for troubleshooting.
+- Added a new icon.
+
 1.5.2
 -----
 - Fixed the icon not showing in the repository browsing screen.
