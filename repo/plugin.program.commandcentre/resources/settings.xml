@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings>
+    <category label="30000">
+        <setting label="30001" type="action" action="RunScript(plugin.program.commandcentre, configure_video_addons)"/>
+        <setting label="30002" type="action" action="RunScript(plugin.program.commandcentre, configure_program_addons)"/>
+        <setting label="30003" type="action" action="RunScript(plugin.program.commandcentre, configure_shortcuts)"/>
+        <setting label="30004" type="action" action="RunScript(plugin.program.commandcentre, configure_system_functions)"/>
+        <setting label="30005" type="action" action="RunScript(plugin.program.commandcentre, configure_nav_color)"/>
+        <setting label="30007" type="action" action="RunScript(plugin.program.commandcentre, configure_menu_order)"/>
+        <!-- Hidden storage setting. setSetting()/getSetting() for an id with no
+             matching <setting> here silently fails to persist (Kodi's addon
+             settings backend since Leia/18) — this declaration is what makes
+             the colour picker's choice actually stick. -->
+        <setting id="nav_highlight_color" type="text" label="30006" default="FFFFFFFF" visible="false"/>
+    </category>
+</settings>

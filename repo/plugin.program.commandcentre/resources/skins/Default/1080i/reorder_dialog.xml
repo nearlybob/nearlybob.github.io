@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window>
+    <defaultcontrol always="true">4001</defaultcontrol>
+    <onload>SetFocus(4001)</onload>
+    <controls>
+        <control type="image">
+            <posx>0</posx>
+            <posy>0</posy>
+            <width>1920</width>
+            <height>1080</height>
+            <colordiffuse>CC000000</colordiffuse>
+            <texture>colors/black.png</texture>
+        </control>
+
+        <control type="group">
+            <posx>460</posx>
+            <posy>180</posy>
+            <control type="image">
+                <width>1000</width>
+                <height>880</height>
+                <colordiffuse>FF1c1c1c</colordiffuse>
+                <texture>colors/white.png</texture>
+            </control>
+
+            <!-- Consistent 30px font family throughout (font32/font32_title)
+                 to match command_center.xml and to fix selection_dialog.xml's
+                 previous title(28px)/list(43px)/buttons(27px) mismatch. -->
+            <control type="label" id="4000">
+                <posx>30</posx>
+                <posy>16</posy>
+                <width>940</width>
+                <height>50</height>
+                <font>font32_title</font>
+                <textcolor>FFFFFFFF</textcolor>
+                <label>Set order</label>
+            </control>
+
+            <control type="label">
+                <posx>30</posx>
+                <posy>60</posy>
+                <width>940</width>
+                <height>24</height>
+                <font>font27</font>
+                <textcolor>FFAAAAAA</textcolor>
+                <label>Left/Right moves the selected item</label>
+            </control>
+
+            <control type="list" id="4001">
+                <posx>20</posx>
+                <posy>96</posy>
+                <width>960</width>
+                <height>584</height>
+                <onleft>4001</onleft>
+                <onright>4001</onright>
+                <onup>4001</onup>
+                <ondown>4002</ondown>
+                <scrolltime>200</scrolltime>
+                <itemlayout width="960" height="56">
+                    <control type="label">
+                        <posx>20</posx>
+                        <posy>0</posy>
+                        <width>920</width>
+                        <height>56</height>
+                        <font>font32</font>
+                        <textcolor>FFEEEEEE</textcolor>
+                        <aligny>center</aligny>
+                        <label>$INFO[ListItem.Label]</label>
+                    </control>
+                </itemlayout>
+                <focusedlayout width="960" height="56">
+                    <control type="image">
+                        <posx>0</posx>
+                        <posy>0</posy>
+                        <width>960</width>
+                        <height>56</height>
+                        <colordiffuse>FFFFFFFF</colordiffuse>
+                        <texture>colors/white.png</texture>
+                    </control>
+                    <control type="label">
+                        <posx>20</posx>
+                        <posy>0</posy>
+                        <width>920</width>
+                        <height>56</height>
+                        <font>font32</font>
+                        <textcolor>FF000000</textcolor>
+                        <aligny>center</aligny>
+                        <label>$INFO[ListItem.Label]</label>
+                    </control>
+                </focusedlayout>
+            </control>
+
+            <control type="button" id="4002">
+                <posx>560</posx>
+                <posy>710</posy>
+                <width>200</width>
+                <height>70</height>
+                <font>font32_title</font>
+                <label>Save</label>
+                <textcolor>FFFFFFFF</textcolor>
+                <focusedcolor>FF000000</focusedcolor>
+                <onleft>4001</onleft>
+                <onright>4003</onright>
+                <onup>4001</onup>
+                <ondown>4001</ondown>
+                <texturefocus colordiffuse="FFFFFFFF">colors/white.png</texturefocus>
+                <texturenofocus colordiffuse="FF2a2a2a">colors/white.png</texturenofocus>
+            </control>
+
+            <control type="button" id="4003">
+                <posx>780</posx>
+                <posy>710</posy>
+                <width>200</width>
+                <height>70</height>
+                <font>font32_title</font>
+                <label>Cancel</label>
+                <textcolor>FFFFFFFF</textcolor>
+                <focusedcolor>FF000000</focusedcolor>
+                <onleft>4002</onleft>
+                <onright>4003</onright>
+                <onup>4001</onup>
+                <ondown>4001</ondown>
+                <texturefocus colordiffuse="FFFFFFFF">colors/white.png</texturefocus>
+                <texturenofocus colordiffuse="FF2a2a2a">colors/white.png</texturenofocus>
+            </control>
+        </control>
+    </controls>
+</window>

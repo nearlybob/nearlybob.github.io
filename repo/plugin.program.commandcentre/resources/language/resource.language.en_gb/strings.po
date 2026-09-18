@@ -1,0 +1,35 @@
+# Kodi Media Center language file
+msgid ""
+msgstr ""
+
+msgctxt "#30000"
+msgid "Configuration"
+msgstr ""
+
+msgctxt "#30001"
+msgid "Choose visible Video Addons..."
+msgstr ""
+
+msgctxt "#30002"
+msgid "Choose visible Program Addons..."
+msgstr ""
+
+msgctxt "#30003"
+msgid "Manage Shortcuts..."
+msgstr ""
+
+msgctxt "#30004"
+msgid "Choose visible System functions..."
+msgstr ""
+
+msgctxt "#30005"
+msgid "Set navigation highlight colour..."
+msgstr ""
+
+msgctxt "#30006"
+msgid "Navigation highlight colour"
+msgstr ""
+
+msgctxt "#30007"
+msgid "Set menu order..."
+msgstr ""

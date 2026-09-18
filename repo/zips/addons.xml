@@ -1,5 +1,27 @@
 <?xml version='1.0' encoding='utf-8'?>
-<addons><addon id="plugin.program.quickbrowser" name="Quick Browser" version="1.5.2" provider-name="Bob">
+<addons><addon id="plugin.program.commandcentre" name="Command Centre" version="1.0.0" provider-name="Bob">
+    <requires>
+        <import addon="xbmc.python" version="3.0.0" />
+    </requires>
+    <extension point="xbmc.python.script" library="default.py">
+        <provides>executable</provides>
+    </extension>
+    <extension point="kodi.context.item" library="resources/lib/context.py">
+        <item>
+            <label>Command Centre</label>
+            <visible>true</visible>
+        </item>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <summary lang="en_GB">Universal launcher and control panel popup</summary>
+        <description lang="en_GB">Command Centre is a popup control panel for Kodi. Invoke it from any context menu to get quick access to your installed video and program addons, Kodi system functions, and your own custom shortcuts.</description>
+        <platform>all</platform>
+        <license>MIT</license>
+        <assets>
+            <icon>icon.png</icon>
+        </assets>
+    </extension>
+</addon><addon id="plugin.program.quickbrowser" name="Quick Browser" version="1.5.2" provider-name="Bob">
   <requires>
     <import addon="xbmc.python" version="3.0.0" />
   </requires>
