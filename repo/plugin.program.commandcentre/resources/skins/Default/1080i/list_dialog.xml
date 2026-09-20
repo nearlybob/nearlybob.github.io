@@ -11,9 +11,9 @@
         </control>
 
         <control type="group">
-            <posx>460</posx><posy>180</posy>
+            <posx>460</posx><posy>112</posy>
             <control type="image">
-                <width>1000</width><height>880</height>
+                <width>1000</width><height>856</height>
                 <colordiffuse>FF1c1c1c</colordiffuse>
                 <texture>colors/white.png</texture>
             </control>
@@ -33,7 +33,7 @@
             </control>
 
             <control type="list" id="4001">
-                <posx>20</posx><posy>100</posy><width>940</width><height>584</height>
+                <posx>20</posx><posy>100</posy><width>940</width><height>560</height>
                 <onleft>4001</onleft><onright>4001</onright><onup>4001</onup><ondown>4002</ondown>
                 <scrolltime>200</scrolltime>
                 <pagecontrol>4005</pagecontrol>
@@ -64,7 +64,7 @@
             </control>
 
             <control type="scrollbar" id="4005">
-                <posx>966</posx><posy>100</posy><width>14</width><height>584</height>
+                <posx>966</posx><posy>100</posy><width>14</width><height>560</height>
                 <texturesliderbackground colordiffuse="33FFFFFF">colors/white.png</texturesliderbackground>
                 <texturesliderbar colordiffuse="88FFFFFF">colors/white.png</texturesliderbar>
                 <texturesliderbarfocus colordiffuse="FFFFFFFF">colors/white.png</texturesliderbarfocus>
@@ -74,7 +74,7 @@
             </control>
 
             <control type="button" id="4002">
-                <posx>560</posx><posy>710</posy><width>200</width><height>70</height>
+                <posx>560</posx><posy>686</posy><width>200</width><height>70</height>
                 <font>font32_title</font>
                 <label>Save</label>
                 <textcolor>FFFFFFFF</textcolor>
@@ -85,7 +85,7 @@
             </control>
 
             <control type="button" id="4003">
-                <posx>780</posx><posy>710</posy><width>200</width><height>70</height>
+                <posx>780</posx><posy>686</posy><width>200</width><height>70</height>
                 <font>font32_title</font>
                 <label>Cancel</label>
                 <textcolor>FFFFFFFF</textcolor>

@@ -9,10 +9,13 @@
             <texture>colors/black.png</texture>
         </control>
 
-        <control type="group">
-            <posx>460</posx><posy>160</posy><width>1000</width><height>900</height>
-            <control type="image">
-                <posx>0</posx><posy>0</posy><width>1000</width><height>900</height>
+        <!-- Sizing: the list shows 18 whole rows of 56px (1008) with 12px above and below = 1032 tall, centred on
+             the 1080 screen (24px above and below) when full. dialog.py shrinks the panel and re-centres it
+             (group id 5000, background id 5003) when there are fewer rows; this XML is the full-size default. -->
+        <control type="group" id="5000">
+            <posx>460</posx><posy>24</posy><width>1000</width><height>1032</height>
+            <control type="image" id="5003">
+                <posx>0</posx><posy>0</posy><width>1000</width><height>1032</height>
                 <colordiffuse>FF1c1c1c</colordiffuse><texture>colors/white.png</texture>
             </control>
 
@@ -22,7 +25,7 @@
                  Which sub-controls show is switched per row with <visible> instead.
                  Headings are skipped over by dialog.py. -->
             <control type="list" id="5001">
-                <posx>20</posx><posy>20</posy><width>940</width><height>860</height>
+                <posx>20</posx><posy>12</posy><width>940</width><height>1008</height>
                 <onleft>5001</onleft><onright>5001</onright>
                 <scrolltime>150</scrolltime><itemgap>0</itemgap>
                 <orientation>vertical</orientation>
@@ -92,7 +95,7 @@
             </control>
 
             <control type="scrollbar" id="5002">
-                <posx>966</posx><posy>20</posy><width>14</width><height>860</height>
+                <posx>966</posx><posy>12</posy><width>14</width><height>1008</height>
                 <texturesliderbackground colordiffuse="33FFFFFF">colors/white.png</texturesliderbackground>
                 <texturesliderbar colordiffuse="88FFFFFF">colors/white.png</texturesliderbar>
                 <texturesliderbarfocus colordiffuse="FFFFFFFF">colors/white.png</texturesliderbarfocus>

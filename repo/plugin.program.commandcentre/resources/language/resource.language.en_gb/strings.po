@@ -70,6 +70,10 @@ msgctxt "#30017"
 msgid "Return to Command Centre when you back out of an item"
 msgstr ""
 
+msgctxt "#30018"
+msgid "Resize and centre the popup to fit its entries"
+msgstr ""
+
 msgctxt "#30020"
 msgid "Recent"
 msgstr ""

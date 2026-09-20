@@ -18,6 +18,7 @@
         <setting id="nav_highlight_color" type="text" label="30006" default="FFFFFFFF" visible="false"/>
     </category>
     <category label="30010">
+        <setting id="fit_popup_height" type="bool" label="30018" default="true"/>
         <setting id="return_to_popup" type="bool" label="30017" default="true"/>
         <setting id="show_configure_row" type="bool" label="30016" default="true"/>
         <setting id="show_recent" type="bool" label="30011" default="true"/>

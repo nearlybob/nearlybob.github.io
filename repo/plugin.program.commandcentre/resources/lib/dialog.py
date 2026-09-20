@@ -29,6 +29,15 @@ from .common import (ACTION_MOVE_DOWN, ACTION_MOVE_UP, ADDON_NAME, ADDON_PATH,
 from .strings import S
 
 CONTROL_LIST = 5001
+CONTROL_PANEL = 5000        # the group holding background, list and scrollbar
+CONTROL_BACKGROUND = 5003
+
+# Layout (1080i skin units) - must match command_center.xml.
+SCREEN_HEIGHT = 1080
+PANEL_X = 460
+ROW_HEIGHT = 56
+PANEL_PADDING = 12
+MAX_ROWS = 18               # 18 x 56 + 2 x 12 = 1032: 24px above and below at full size
 INTERNAL_CONFIGURE = 'internal:configure'
 
 # Key each section's item order (and hide-list) is stored under.
@@ -38,6 +47,13 @@ ORDER_KEYS = dict(ADDON_SECTION_TYPES)
 ORDER_KEYS.update({SHORTCUTS_SECTION: order.SHORTCUTS_KEY, SYSTEM_SECTION: visibility.SYSTEM_KEY})
 HIDE_KEYS = dict(ADDON_SECTION_TYPES)
 HIDE_KEYS[SYSTEM_SECTION] = visibility.SYSTEM_KEY
+
+
+def panel_geometry(row_count):
+    """(panel height, top edge) for a popup showing ``row_count`` rows, centred on the screen."""
+    rows = max(1, min(row_count, MAX_ROWS))
+    height = rows * ROW_HEIGHT + 2 * PANEL_PADDING
+    return height, (SCREEN_HEIGHT - height) // 2
 
 
 def _addon_entry(a):
@@ -117,7 +133,22 @@ class CommandCenterDialog(xbmcgui.WindowXMLDialog):
         position = focus_index if focus_index is not None else self._first_item_index
         self._list.selectItem(position)
         self._last_position = position
+        self._fit_panel(len(rows))
         self.setFocus(self._list)
+
+    def _fit_panel(self, row_count):
+        """Shrink the background to fit ``row_count`` rows and keep the panel vertically centred; from
+        MAX_ROWS rows up it stays at the full size defined in the XML and the list scrolls. The list keeps
+        its full-size (transparent) area, so item layout and scrolling are never touched. Purely cosmetic:
+        if Kodi refuses, the full-size XML layout simply stays."""
+        if not get_bool_setting('fit_popup_height', True):
+            return
+        height, top = panel_geometry(row_count)
+        try:
+            self.getControl(CONTROL_PANEL).setPosition(PANEL_X, top)
+            self.getControl(CONTROL_BACKGROUND).setHeight(height)
+        except Exception:
+            log_exception('resizing the popup')
 
     def _gather_sections(self):
         # Every enabled addon of these types (before hiding), used to skip a JSON-RPC

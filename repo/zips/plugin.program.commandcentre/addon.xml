@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addon id="plugin.program.commandcentre"
        name="Command Centre"
-       version="1.0.5"
+       version="1.0.6"
        provider-name="Bob">
     <requires>
         <import addon="xbmc.python" version="3.0.0"/>
@@ -20,10 +20,13 @@
         <description lang="en_GB">Command Centre is a popup control panel for Kodi. Invoke it from any context menu to get quick access to your installed video, music, picture and program addons, Kodi system functions, your recently used entries and your own custom shortcuts.</description>
         <platform>all</platform>
         <license>MIT</license>
-        <news>1.0.5
+        <news>1.0.6
+- New: the popup is taller and sits higher (18 rows, 24px from the top and bottom at full size), always shows whole rows, and shrinks and stays centred when it has fewer entries (setting: Resize and centre the popup to fit its entries)
+- New: Rename and Change icon in the item menu of video, music, picture and program addons (included in backups; Reset has an option to undo them)
+
+1.0.5
 - New: backing out of an item you opened from Command Centre reopens Command Centre (setting: Return to Command Centre when you back out of an item)
 - New system entries: Refresh Weather, Next Weather Location, Screen Calibration, Music Visualisation
-- New: Rename and Change icon in the item menu of video, music, picture and program addons (included in backups; Reset has an option to undo them)
 
 1.0.4
 - New: setting to hide the Configure Command Centre row in the popup (configure from the addon settings only)
