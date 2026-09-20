@@ -33,3 +33,579 @@ msgstr ""
 msgctxt "#30007"
 msgid "Set menu order..."
 msgstr ""
+
+msgctxt "#30008"
+msgid "Import shortcuts from Favourites..."
+msgstr ""
+
+msgctxt "#30009"
+msgid "Backup, restore and reset..."
+msgstr ""
+
+msgctxt "#30010"
+msgid "Popup"
+msgstr ""
+
+msgctxt "#30011"
+msgid "Show Recent section"
+msgstr ""
+
+msgctxt "#30012"
+msgid "Number of recent entries"
+msgstr ""
+
+msgctxt "#30013"
+msgid "Choose visible Music Addons..."
+msgstr ""
+
+msgctxt "#30014"
+msgid "Choose visible Picture Addons..."
+msgstr ""
+
+msgctxt "#30016"
+msgid "Show the Configure Command Centre row in the popup"
+msgstr ""
+
+msgctxt "#30017"
+msgid "Return to Command Centre when you back out of an item"
+msgstr ""
+
+msgctxt "#30020"
+msgid "Recent"
+msgstr ""
+
+msgctxt "#30021"
+msgid "Video Addons"
+msgstr ""
+
+msgctxt "#30022"
+msgid "Program Addons"
+msgstr ""
+
+msgctxt "#30023"
+msgid "Shortcuts"
+msgstr ""
+
+msgctxt "#30024"
+msgid "System"
+msgstr ""
+
+msgctxt "#30025"
+msgid "Command Centre"
+msgstr ""
+
+msgctxt "#30026"
+msgid "Configure Command Centre..."
+msgstr ""
+
+msgctxt "#30027"
+msgid "Music Addons"
+msgstr ""
+
+msgctxt "#30028"
+msgid "Picture Addons"
+msgstr ""
+
+msgctxt "#30050"
+msgid "Save"
+msgstr ""
+
+msgctxt "#30051"
+msgid "Cancel"
+msgstr ""
+
+msgctxt "#30052"
+msgid "Remove"
+msgstr ""
+
+msgctxt "#30053"
+msgid "Add"
+msgstr ""
+
+msgctxt "#30055"
+msgid "Left/Right moves the selected item. Select for more options."
+msgstr ""
+
+msgctxt "#30056"
+msgid "Move up"
+msgstr ""
+
+msgctxt "#30057"
+msgid "Move down"
+msgstr ""
+
+msgctxt "#30058"
+msgid "Move to top"
+msgstr ""
+
+msgctxt "#30059"
+msgid "Move to bottom"
+msgstr ""
+
+msgctxt "#30060"
+msgid "Move section up"
+msgstr ""
+
+msgctxt "#30061"
+msgid "Move section down"
+msgstr ""
+
+msgctxt "#30062"
+msgid "Hide"
+msgstr ""
+
+msgctxt "#30063"
+msgid "Edit..."
+msgstr ""
+
+msgctxt "#30064"
+msgid "Remove from Recent"
+msgstr ""
+
+msgctxt "#30065"
+msgid "Close"
+msgstr ""
+
+msgctxt "#30066"
+msgid "[missing addon]"
+msgstr ""
+
+msgctxt "#30070"
+msgid "Nothing to reorder"
+msgstr ""
+
+msgctxt "#30071"
+msgid "No addons of this type found"
+msgstr ""
+
+msgctxt "#30072"
+msgid "No addons found"
+msgstr ""
+
+msgctxt "#30073"
+msgid "Visible addons updated"
+msgstr ""
+
+msgctxt "#30074"
+msgid "System functions updated"
+msgstr ""
+
+msgctxt "#30075"
+msgid "Highlight colour updated"
+msgstr ""
+
+msgctxt "#30076"
+msgid "Not a valid colour code"
+msgstr ""
+
+msgctxt "#30077"
+msgid "Section order updated"
+msgstr ""
+
+msgctxt "#30078"
+msgid "{} order updated"
+msgstr ""
+
+msgctxt "#30079"
+msgid "Shortcut added"
+msgstr ""
+
+msgctxt "#30080"
+msgid "That shortcut already exists"
+msgstr ""
+
+msgctxt "#30081"
+msgid "{} shortcut(s) removed"
+msgstr ""
+
+msgctxt "#30082"
+msgid "No shortcuts to work with"
+msgstr ""
+
+msgctxt "#30083"
+msgid "Could not browse this addon"
+msgstr ""
+
+msgctxt "#30084"
+msgid "Shortcut updated"
+msgstr ""
+
+msgctxt "#30085"
+msgid "{} shortcut(s) added"
+msgstr ""
+
+msgctxt "#30086"
+msgid "No favourites found"
+msgstr ""
+
+msgctxt "#30087"
+msgid "No addons with settings found"
+msgstr ""
+
+msgctxt "#30088"
+msgid "Could not open Command Centre - see the Kodi log"
+msgstr ""
+
+msgctxt "#30089"
+msgid "The colour picker needs Kodi 20 or newer - enter a code instead"
+msgstr ""
+
+msgctxt "#30090"
+msgid "Nothing to show - turn the Configure row back on in the addon settings"
+msgstr ""
+
+msgctxt "#30100"
+msgid "Configure Command Centre"
+msgstr ""
+
+msgctxt "#30101"
+msgid "Choose visible Video Addons"
+msgstr ""
+
+msgctxt "#30102"
+msgid "Choose visible Program Addons"
+msgstr ""
+
+msgctxt "#30103"
+msgid "Choose visible System functions"
+msgstr ""
+
+msgctxt "#30104"
+msgid "Set Menu Order"
+msgstr ""
+
+msgctxt "#30105"
+msgid "Set order for sections"
+msgstr ""
+
+msgctxt "#30106"
+msgid "Set order for Video Addons"
+msgstr ""
+
+msgctxt "#30107"
+msgid "Set order for Program Addons"
+msgstr ""
+
+msgctxt "#30108"
+msgid "Set order for Shortcuts"
+msgstr ""
+
+msgctxt "#30109"
+msgid "Set order for System functions"
+msgstr ""
+
+msgctxt "#30110"
+msgid "Set order for {}"
+msgstr ""
+
+msgctxt "#30111"
+msgid "Choose visible Music Addons"
+msgstr ""
+
+msgctxt "#30112"
+msgid "Navigation highlight colour"
+msgstr ""
+
+msgctxt "#30113"
+msgid "Choose from colour picker"
+msgstr ""
+
+msgctxt "#30114"
+msgid "Enter a colour code (e.g. FF00A2ED)"
+msgstr ""
+
+msgctxt "#30115"
+msgid "Select navigation highlight colour"
+msgstr ""
+
+msgctxt "#30116"
+msgid "Colour code (6 hex digits e.g. 00A2ED, or 8 with alpha e.g. FF00A2ED)"
+msgstr ""
+
+msgctxt "#30117"
+msgid "Choose visible Picture Addons"
+msgstr ""
+
+msgctxt "#30118"
+msgid "Set order for Music Addons"
+msgstr ""
+
+msgctxt "#30119"
+msgid "Set order for Picture Addons"
+msgstr ""
+
+msgctxt "#30120"
+msgid "Manage Shortcuts"
+msgstr ""
+
+msgctxt "#30121"
+msgid "Browse an addon to pick a shortcut"
+msgstr ""
+
+msgctxt "#30122"
+msgid "Add shortcut to an addon's settings page"
+msgstr ""
+
+msgctxt "#30123"
+msgid "Add shortcuts from Kodi Favourites"
+msgstr ""
+
+msgctxt "#30124"
+msgid "Add custom shortcut (advanced)"
+msgstr ""
+
+msgctxt "#30125"
+msgid "Edit a shortcut"
+msgstr ""
+
+msgctxt "#30126"
+msgid "Remove shortcuts"
+msgstr ""
+
+msgctxt "#30127"
+msgid "Browse which addon?"
+msgstr ""
+
+msgctxt "#30128"
+msgid "Open settings for which addon?"
+msgstr ""
+
+msgctxt "#30129"
+msgid "Shortcut label"
+msgstr ""
+
+msgctxt "#30130"
+msgid "Action (e.g. a plugin:// URL or a Kodi built-in function)"
+msgstr ""
+
+msgctxt "#30131"
+msgid "Select shortcuts to remove"
+msgstr ""
+
+msgctxt "#30132"
+msgid "Remove {} shortcut(s)?"
+msgstr ""
+
+msgctxt "#30133"
+msgid "Remove the shortcut '{}'?"
+msgstr ""
+
+msgctxt "#30134"
+msgid "What should this shortcut do?"
+msgstr ""
+
+msgctxt "#30135"
+msgid "Play it"
+msgstr ""
+
+msgctxt "#30136"
+msgid "Run it (plugin action)"
+msgstr ""
+
+msgctxt "#30137"
+msgid "Select favourites to add"
+msgstr ""
+
+msgctxt "#30138"
+msgid "Edit which shortcut?"
+msgstr ""
+
+msgctxt "#30139"
+msgid "Rename"
+msgstr ""
+
+msgctxt "#30140"
+msgid "Change icon"
+msgstr ""
+
+msgctxt "#30141"
+msgid "Change action"
+msgstr ""
+
+msgctxt "#30142"
+msgid "Choose an image..."
+msgstr ""
+
+msgctxt "#30143"
+msgid "Use the default icon"
+msgstr ""
+
+msgctxt "#30144"
+msgid "Choose an icon"
+msgstr ""
+
+msgctxt "#30145"
+msgid "Use '{}' as the shortcut"
+msgstr ""
+
+msgctxt "#30146"
+msgid "Restart Kodi?"
+msgstr ""
+
+msgctxt "#30147"
+msgid "Open the Shutdown menu?"
+msgstr ""
+
+msgctxt "#30150"
+msgid "Backup, restore and reset"
+msgstr ""
+
+msgctxt "#30151"
+msgid "Back up settings to a file..."
+msgstr ""
+
+msgctxt "#30152"
+msgid "Restore settings from a file..."
+msgstr ""
+
+msgctxt "#30153"
+msgid "Reset..."
+msgstr ""
+
+msgctxt "#30154"
+msgid "Choose a folder for the backup"
+msgstr ""
+
+msgctxt "#30155"
+msgid "Choose a backup file"
+msgstr ""
+
+msgctxt "#30156"
+msgid "Backup saved"
+msgstr ""
+
+msgctxt "#30157"
+msgid "Could not write the backup"
+msgstr ""
+
+msgctxt "#30158"
+msgid "That is not a valid Command Centre backup"
+msgstr ""
+
+msgctxt "#30159"
+msgid "Replace your current shortcuts, order, visibility and colour with the backup?"
+msgstr ""
+
+msgctxt "#30160"
+msgid "Backup restored"
+msgstr ""
+
+msgctxt "#30161"
+msgid "A backup file already exists in that folder. Overwrite it?"
+msgstr ""
+
+msgctxt "#30162"
+msgid "Reset what?"
+msgstr ""
+
+msgctxt "#30163"
+msgid "Show everything (reset visibility)"
+msgstr ""
+
+msgctxt "#30164"
+msgid "Reset menu order"
+msgstr ""
+
+msgctxt "#30165"
+msgid "Reset highlight colour"
+msgstr ""
+
+msgctxt "#30166"
+msgid "Clear Recent"
+msgstr ""
+
+msgctxt "#30167"
+msgid "Delete ALL shortcuts"
+msgstr ""
+
+msgctxt "#30168"
+msgid "Are you sure?"
+msgstr ""
+
+msgctxt "#30169"
+msgid "Done"
+msgstr ""
+
+msgctxt "#30170"
+msgid "Reset addon names and icons"
+msgstr ""
+
+msgctxt "#30171"
+msgid "Nothing to add from this item"
+msgstr ""
+
+msgctxt "#30172"
+msgid "Something went wrong - see the Kodi log"
+msgstr ""
+
+msgctxt "#30173"
+msgid "{} - Settings"
+msgstr ""
+
+msgctxt "#30200"
+msgid "Activate Screensaver"
+msgstr ""
+
+msgctxt "#30201"
+msgid "Addons"
+msgstr ""
+
+msgctxt "#30202"
+msgid "Enable/Disable Debug Logging"
+msgstr ""
+
+msgctxt "#30203"
+msgid "Favourites"
+msgstr ""
+
+msgctxt "#30204"
+msgid "File Manager"
+msgstr ""
+
+msgctxt "#30205"
+msgid "Home"
+msgstr ""
+
+msgctxt "#30206"
+msgid "Minimise Kodi"
+msgstr ""
+
+msgctxt "#30207"
+msgid "Reload Skin"
+msgstr ""
+
+msgctxt "#30208"
+msgid "Restart Kodi"
+msgstr ""
+
+msgctxt "#30209"
+msgid "Settings"
+msgstr ""
+
+msgctxt "#30210"
+msgid "Shutdown Menu"
+msgstr ""
+
+msgctxt "#30211"
+msgid "Toggle Fullscreen"
+msgstr ""
+
+msgctxt "#30212"
+msgid "Update Addon Repositories"
+msgstr ""
+
+msgctxt "#30213"
+msgid "Refresh Weather"
+msgstr ""
+
+msgctxt "#30214"
+msgid "Next Weather Location"
+msgstr ""
+
+msgctxt "#30216"
+msgid "Screen Calibration"
+msgstr ""
+
+msgctxt "#30217"
+msgid "Music Visualisation"
+msgstr ""

@@ -2,15 +2,25 @@
 <settings>
     <category label="30000">
         <setting label="30001" type="action" action="RunScript(plugin.program.commandcentre, configure_video_addons)"/>
+        <setting label="30013" type="action" action="RunScript(plugin.program.commandcentre, configure_music_addons)"/>
+        <setting label="30014" type="action" action="RunScript(plugin.program.commandcentre, configure_picture_addons)"/>
         <setting label="30002" type="action" action="RunScript(plugin.program.commandcentre, configure_program_addons)"/>
         <setting label="30003" type="action" action="RunScript(plugin.program.commandcentre, configure_shortcuts)"/>
+        <setting label="30008" type="action" action="RunScript(plugin.program.commandcentre, configure_favourites)"/>
         <setting label="30004" type="action" action="RunScript(plugin.program.commandcentre, configure_system_functions)"/>
         <setting label="30005" type="action" action="RunScript(plugin.program.commandcentre, configure_nav_color)"/>
         <setting label="30007" type="action" action="RunScript(plugin.program.commandcentre, configure_menu_order)"/>
+        <setting label="30009" type="action" action="RunScript(plugin.program.commandcentre, configure_backup)"/>
         <!-- Hidden storage setting. setSetting()/getSetting() for an id with no
              matching <setting> here silently fails to persist (Kodi's addon
-             settings backend since Leia/18) — this declaration is what makes
-             the colour picker's choice actually stick. -->
+             settings backend since Leia/18) - this declaration is what makes
+             the colour choice actually stick. -->
         <setting id="nav_highlight_color" type="text" label="30006" default="FFFFFFFF" visible="false"/>
+    </category>
+    <category label="30010">
+        <setting id="return_to_popup" type="bool" label="30017" default="true"/>
+        <setting id="show_configure_row" type="bool" label="30016" default="true"/>
+        <setting id="show_recent" type="bool" label="30011" default="true"/>
+        <setting id="recent_count" type="slider" label="30012" default="5" range="1,1,15" option="int" enable="eq(-1,true)"/>
     </category>
 </settings>

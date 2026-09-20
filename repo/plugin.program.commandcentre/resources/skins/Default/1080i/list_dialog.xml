@@ -1,115 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Shared by select_items() and reorder_items() in resources/lib/list_dialog.py.
+     Controls: 4000 title, 4004 hint, 4001 list, 4005 scrollbar, 4002 accept, 4003 cancel. -->
 <window>
     <defaultcontrol always="true">4001</defaultcontrol>
-    <onload>SetFocus(4001)</onload>
     <controls>
         <control type="image">
-            <posx>0</posx>
-            <posy>0</posy>
-            <width>1920</width>
-            <height>1080</height>
+            <posx>0</posx><posy>0</posy><width>1920</width><height>1080</height>
             <colordiffuse>CC000000</colordiffuse>
             <texture>colors/black.png</texture>
         </control>
 
         <control type="group">
-            <posx>460</posx>
-            <posy>180</posy>
+            <posx>460</posx><posy>180</posy>
             <control type="image">
-                <width>1000</width>
-                <height>880</height>
+                <width>1000</width><height>880</height>
                 <colordiffuse>FF1c1c1c</colordiffuse>
                 <texture>colors/white.png</texture>
             </control>
 
-            <!-- Consistent 30px font family throughout (font32/font32_title):
-                 previously the title was font30_title (28px), the list was
-                 font45 (43px), and the buttons were font27_title (27px) —
-                 three different sizes in one dialog. -->
             <control type="label" id="4000">
-                <posx>30</posx>
-                <posy>16</posy>
-                <width>940</width>
-                <height>50</height>
+                <posx>30</posx><posy>14</posy><width>940</width><height>46</height>
                 <font>font32_title</font>
                 <textcolor>FFFFFFFF</textcolor>
-                <label>Select items</label>
+                <label>-</label>
+            </control>
+
+            <control type="label" id="4004">
+                <posx>30</posx><posy>62</posy><width>940</width><height>30</height>
+                <font>font27</font>
+                <textcolor>FFAAAAAA</textcolor>
+                <label>-</label>
             </control>
 
             <control type="list" id="4001">
-                <posx>20</posx>
-                <posy>80</posy>
-                <width>960</width>
-                <height>600</height>
-                <onleft>4001</onleft>
-                <onright>4001</onright>
-                <onup>4001</onup>
-                <ondown>4002</ondown>
+                <posx>20</posx><posy>100</posy><width>940</width><height>584</height>
+                <onleft>4001</onleft><onright>4001</onright><onup>4001</onup><ondown>4002</ondown>
                 <scrolltime>200</scrolltime>
-                <itemlayout width="960" height="56">
+                <pagecontrol>4005</pagecontrol>
+                <itemlayout width="940" height="56">
                     <control type="label">
-                        <posx>20</posx>
-                        <posy>0</posy>
-                        <width>920</width>
-                        <height>56</height>
+                        <posx>20</posx><posy>0</posy><width>900</width><height>56</height>
                         <font>font32</font>
                         <textcolor>FFEEEEEE</textcolor>
                         <aligny>center</aligny>
                         <label>$INFO[ListItem.Label]</label>
                     </control>
                 </itemlayout>
-                <focusedlayout width="960" height="56">
+                <focusedlayout width="940" height="56">
                     <control type="image">
-                        <posx>0</posx>
-                        <posy>0</posy>
-                        <width>960</width>
-                        <height>56</height>
+                        <posx>0</posx><posy>0</posy><width>940</width><height>56</height>
                         <colordiffuse>FFFFFFFF</colordiffuse>
                         <texture>colors/white.png</texture>
                     </control>
                     <control type="label">
-                        <posx>20</posx>
-                        <posy>0</posy>
-                        <width>920</width>
-                        <height>56</height>
+                        <posx>20</posx><posy>0</posy><width>900</width><height>56</height>
                         <font>font32</font>
                         <textcolor>FF000000</textcolor>
                         <aligny>center</aligny>
+                        <scroll>true</scroll>
                         <label>$INFO[ListItem.Label]</label>
                     </control>
                 </focusedlayout>
             </control>
 
+            <control type="scrollbar" id="4005">
+                <posx>966</posx><posy>100</posy><width>14</width><height>584</height>
+                <texturesliderbackground colordiffuse="33FFFFFF">colors/white.png</texturesliderbackground>
+                <texturesliderbar colordiffuse="88FFFFFF">colors/white.png</texturesliderbar>
+                <texturesliderbarfocus colordiffuse="FFFFFFFF">colors/white.png</texturesliderbarfocus>
+                <showonepage>false</showonepage>
+                <orientation>vertical</orientation>
+                <onleft>4001</onleft>
+            </control>
+
             <control type="button" id="4002">
-                <posx>560</posx>
-                <posy>710</posy>
-                <width>200</width>
-                <height>70</height>
+                <posx>560</posx><posy>710</posy><width>200</width><height>70</height>
                 <font>font32_title</font>
                 <label>Save</label>
                 <textcolor>FFFFFFFF</textcolor>
                 <focusedcolor>FF000000</focusedcolor>
-                <onleft>4001</onleft>
-                <onright>4003</onright>
-                <onup>4001</onup>
-                <ondown>4001</ondown>
+                <onleft>4001</onleft><onright>4003</onright><onup>4001</onup><ondown>4001</ondown>
                 <texturefocus colordiffuse="FFFFFFFF">colors/white.png</texturefocus>
                 <texturenofocus colordiffuse="FF2a2a2a">colors/white.png</texturenofocus>
             </control>
 
             <control type="button" id="4003">
-                <posx>780</posx>
-                <posy>710</posy>
-                <width>200</width>
-                <height>70</height>
+                <posx>780</posx><posy>710</posy><width>200</width><height>70</height>
                 <font>font32_title</font>
                 <label>Cancel</label>
                 <textcolor>FFFFFFFF</textcolor>
                 <focusedcolor>FF000000</focusedcolor>
-                <onleft>4002</onleft>
-                <onright>4003</onright>
-                <onup>4001</onup>
-                <ondown>4001</ondown>
+                <onleft>4002</onleft><onright>4003</onright><onup>4001</onup><ondown>4001</ondown>
                 <texturefocus colordiffuse="FFFFFFFF">colors/white.png</texturefocus>
                 <texturenofocus colordiffuse="FF2a2a2a">colors/white.png</texturenofocus>
             </control>

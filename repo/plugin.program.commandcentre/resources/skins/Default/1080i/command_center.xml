@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window>
     <defaultcontrol always="true">5001</defaultcontrol>
-    <onload>SetFocus(5001)</onload>
     <controls>
+        <!-- Dimmed backdrop: the popup is an overlay, so what is behind it stays visible. -->
         <control type="image">
             <posx>0</posx><posy>0</posy><width>1920</width><height>1080</height>
-            <colordiffuse>FF000000</colordiffuse>
+            <colordiffuse>CC000000</colordiffuse>
             <texture>colors/black.png</texture>
         </control>
 
@@ -16,27 +16,21 @@
                 <colordiffuse>FF1c1c1c</colordiffuse><texture>colors/white.png</texture>
             </control>
 
-            <!-- The ONLY focusable/navigation container.  Every row is a real
-                 menu item. Section headings are rendered in the first row of
-                 each section and scroll naturally with the list. -->
+            <!-- The only focusable list. Every row (section heading or item) is a real
+                 list row of the same height: a <list> evaluates <itemlayout> conditions
+                 once when built, not per row, so heading rows can't have their own height.
+                 Which sub-controls show is switched per row with <visible> instead.
+                 Headings are skipped over by dialog.py. -->
             <control type="list" id="5001">
-                <posx>20</posx><posy>20</posy><width>960</width><height>860</height>
+                <posx>20</posx><posy>20</posy><width>940</width><height>860</height>
                 <onleft>5001</onleft><onright>5001</onright>
                 <scrolltime>150</scrolltime><itemgap>0</itemgap>
-                <orientation>vertical</orientation><pagecontrol>0</pagecontrol>
+                <orientation>vertical</orientation>
+                <pagecontrol>5002</pagecontrol>
 
-                <!-- ONE uniform row size for every row, header or item. Kodi only
-                     evaluates an <itemlayout>/<focusedlayout> "condition" attribute
-                     once when the list is built, not per row — so a per-item height
-                     switch (which the previous version relied on) never actually
-                     triggers and headers silently disappeared. Per-item <visible>
-                     on sub-controls, by contrast, IS evaluated per row, so that's
-                     what switches between the two sets of controls below. Because
-                     every row is now the same size there's no reserved-but-unused
-                     space anywhere, which is what was producing the uneven gaps. -->
-                <itemlayout width="960" height="56">
+                <itemlayout width="940" height="56">
                     <control type="label">
-                        <posx>76</posx><posy>0</posy><width>850</width><height>56</height>
+                        <posx>76</posx><posy>0</posy><width>820</width><height>56</height>
                         <font>font32_title</font><textcolor>FFAAAAAA</textcolor>
                         <aligny>center</aligny>
                         <label>$INFO[ListItem.Label]</label>
@@ -44,25 +38,26 @@
                     </control>
                     <control type="image">
                         <posx>0</posx><posy>6</posy><width>44</width><height>44</height>
-                        <texture>$INFO[ListItem.Icon]</texture>
+                        <texture fallback="DefaultAddonProgram.png">$INFO[ListItem.Icon]</texture>
                         <visible>String.IsEqual(ListItem.Property(row_type),item)</visible>
                     </control>
                     <control type="label">
-                        <posx>68</posx><posy>6</posy><width>850</width><height>44</height>
+                        <posx>68</posx><posy>6</posy><width>820</width><height>44</height>
                         <font>font32</font><textcolor>FFEEEEEE</textcolor>
+                        <aligny>center</aligny>
                         <label>$INFO[ListItem.Label]</label>
                         <visible>String.IsEqual(ListItem.Property(row_type),item)</visible>
                     </control>
                 </itemlayout>
 
-                <focusedlayout width="960" height="56">
+                <focusedlayout width="940" height="56">
                     <control type="image">
-                        <posx>0</posx><posy>0</posy><width>960</width><height>56</height>
+                        <posx>0</posx><posy>0</posy><width>940</width><height>56</height>
                         <texture colordiffuse="$INFO[Window.Property(nav_highlight_color)]">colors/white.png</texture>
                         <visible>String.IsEqual(ListItem.Property(row_type),item)</visible>
                     </control>
                     <control type="label">
-                        <posx>76</posx><posy>0</posy><width>850</width><height>56</height>
+                        <posx>76</posx><posy>0</posy><width>820</width><height>56</height>
                         <font>font32_title</font><textcolor>FFAAAAAA</textcolor>
                         <aligny>center</aligny>
                         <label>$INFO[ListItem.Label]</label>
@@ -70,30 +65,40 @@
                     </control>
                     <control type="image">
                         <posx>0</posx><posy>6</posy><width>44</width><height>44</height>
-                        <texture>$INFO[ListItem.Icon]</texture>
+                        <texture fallback="DefaultAddonProgram.png">$INFO[ListItem.Icon]</texture>
                         <visible>String.IsEqual(ListItem.Property(row_type),item)</visible>
                     </control>
-                    <!-- Two label variants rather than a dynamic <textcolor>:
-                         officially <textcolor> only documents static hex/theme
-                         values, so rather than gamble on undocumented dynamic
-                         behaviour there, this reuses the same <visible>
-                         per-item-property switch already proven above (header
-                         vs item) — white text is shown unless the highlight
-                         colour is light, in which case the black variant shows
-                         instead, keeping it readable on a white/light bar. -->
+                    <!-- Two label variants (white / black text) instead of a dynamic
+                         <textcolor>, which Kodi only documents for static values: the
+                         per-row <visible> switch is the proven mechanism. Black text is
+                         used when the highlight colour is light. Long names scroll. -->
                     <control type="label">
-                        <posx>68</posx><posy>6</posy><width>850</width><height>44</height>
+                        <posx>68</posx><posy>6</posy><width>820</width><height>44</height>
                         <font>font32</font><textcolor>FFFFFFFF</textcolor>
+                        <aligny>center</aligny>
+                        <scroll>true</scroll>
                         <label>$INFO[ListItem.Label]</label>
                         <visible>String.IsEqual(ListItem.Property(row_type),item) + !String.IsEqual(Window.Property(nav_highlight_is_light),true)</visible>
                     </control>
                     <control type="label">
-                        <posx>68</posx><posy>6</posy><width>850</width><height>44</height>
+                        <posx>68</posx><posy>6</posy><width>820</width><height>44</height>
                         <font>font32</font><textcolor>FF000000</textcolor>
+                        <aligny>center</aligny>
+                        <scroll>true</scroll>
                         <label>$INFO[ListItem.Label]</label>
                         <visible>String.IsEqual(ListItem.Property(row_type),item) + String.IsEqual(Window.Property(nav_highlight_is_light),true)</visible>
                     </control>
                 </focusedlayout>
+            </control>
+
+            <control type="scrollbar" id="5002">
+                <posx>966</posx><posy>20</posy><width>14</width><height>860</height>
+                <texturesliderbackground colordiffuse="33FFFFFF">colors/white.png</texturesliderbackground>
+                <texturesliderbar colordiffuse="88FFFFFF">colors/white.png</texturesliderbar>
+                <texturesliderbarfocus colordiffuse="FFFFFFFF">colors/white.png</texturesliderbarfocus>
+                <showonepage>false</showonepage>
+                <orientation>vertical</orientation>
+                <onleft>5001</onleft>
             </control>
         </control>
     </controls>

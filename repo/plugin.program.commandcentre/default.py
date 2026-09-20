@@ -1,43 +1,44 @@
 # -*- coding: utf-8 -*-
-"""
-Command Centre — default entry point.
+"""Command Centre - script entry point.
 
-RunScript(addonid[,args]) passes extra params through sys.argv (this
-is documented, real Kodi behaviour — see the built-in function
-reference for RunScript). settings.xml's action buttons call this
-with a mode argument to reach the configuration flows instead of the
-popup dialog; a bare RunScript(plugin.program.commandcentre) — e.g.
-from a future keymap binding — opens the popup, same as the context
-menu entry in resources/lib/context.py.
+RunScript(plugin.program.commandcentre[, mode]) passes the mode through sys.argv.
+The buttons in the addon settings call it with a mode to reach a configuration flow;
+with no mode (Programs list, a keymap binding...) the popup opens, exactly like the
+context-menu entry (context.py).
 """
 import sys
-import os
+
 import xbmcaddon
 
-ADDON = xbmcaddon.Addon()
-ADDON_PATH = ADDON.getAddonInfo('path')
+ADDON_PATH = xbmcaddon.Addon().getAddonInfo('path')
+if ADDON_PATH not in sys.path:
+    sys.path.insert(0, ADDON_PATH)
 
-LIB_PATH = os.path.join(ADDON_PATH, 'resources', 'lib')
-if LIB_PATH not in sys.path:
-    sys.path.append(LIB_PATH)
-
-from dialog import open_command_center  # noqa: E402
-import settings_actions  # noqa: E402
-
-MODE_HANDLERS = {
-    'configure_video_addons': settings_actions.configure_video_addons,
-    'configure_program_addons': settings_actions.configure_program_addons,
-    'configure_system_functions': settings_actions.configure_system_functions,
-    'configure_shortcuts': settings_actions.configure_shortcuts,
-    'configure_nav_color': settings_actions.configure_nav_color,
-    'configure_menu_order': settings_actions.configure_menu_order,
+# mode -> name of the function in resources/lib/settings_actions.py
+MODES = {
+    'configure': 'configure_main',
+    'configure_video_addons': 'configure_video_addons',
+    'configure_music_addons': 'configure_music_addons',
+    'configure_picture_addons': 'configure_picture_addons',
+    'configure_program_addons': 'configure_program_addons',
+    'configure_system_functions': 'configure_system_functions',
+    'configure_shortcuts': 'configure_shortcuts',
+    'configure_favourites': 'configure_favourites',
+    'configure_nav_color': 'configure_nav_color',
+    'configure_menu_order': 'configure_menu_order',
+    'configure_backup': 'configure_backup',
 }
 
 
-if __name__ == '__main__':
-    mode = sys.argv[1] if len(sys.argv) > 1 else None
-    handler = MODE_HANDLERS.get(mode)
-    if handler:
-        handler()
+def main():
+    mode = sys.argv[1].strip() if len(sys.argv) > 1 else ''
+    if mode in MODES:
+        from resources.lib import settings_actions
+        getattr(settings_actions, MODES[mode])()
     else:
+        from resources.lib.dialog import open_command_center
         open_command_center()
+
+
+if __name__ == '__main__':
+    main()

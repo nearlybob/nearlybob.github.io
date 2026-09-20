@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<addons><addon id="plugin.program.commandcentre" name="Command Centre" version="1.0.0" provider-name="Bob">
+<addons><addon id="plugin.program.commandcentre" name="Command Centre" version="1.0.5" provider-name="Bob">
     <requires>
         <import addon="xbmc.python" version="3.0.0" />
     </requires>
@@ -14,9 +14,36 @@
     </extension>
     <extension point="xbmc.addon.metadata">
         <summary lang="en_GB">Universal launcher and control panel popup</summary>
-        <description lang="en_GB">Command Centre is a popup control panel for Kodi. Invoke it from any context menu to get quick access to your installed video and program addons, Kodi system functions, and your own custom shortcuts.</description>
+        <description lang="en_GB">Command Centre is a popup control panel for Kodi. Invoke it from any context menu to get quick access to your installed video, music, picture and program addons, Kodi system functions, your recently used entries and your own custom shortcuts.</description>
         <platform>all</platform>
         <license>MIT</license>
+        <news>1.0.5
+- New: backing out of an item you opened from Command Centre reopens Command Centre (setting: Return to Command Centre when you back out of an item)
+- New system entries: Refresh Weather, Next Weather Location, Screen Calibration, Music Visualisation
+- New: Rename and Change icon in the item menu of video, music, picture and program addons (included in backups; Reset has an option to undo them)
+
+1.0.4
+- New: setting to hide the Configure Command Centre row in the popup (configure from the addon settings only)
+
+1.0.3
+- New: Services section - enabled service addons that have settings, each opening its settings page; also in Configure, Set Menu Order and the addon settings
+
+1.0.2
+- Fixed: the context-menu entry is registered exactly as in 1.0.0 (its own script, plain label); the second entry is now a separate companion addon
+- New: Music Addons and Picture Addons sections (each addon shows once, in one section)
+- New: system function names are translatable; Shutdown Menu asks before opening
+
+1.0.1
+- Fixed: browsed and custom shortcuts to plugin:// pages now store a real Kodi built-in
+- Fixed: shortcuts.json is never overwritten on startup; all config files are written atomically and an unreadable one is kept as a .corrupt copy
+- Fixed: newly installed addons now appear by default (hide-list instead of allow-list)
+- Fixed: headings can no longer be selected with PageUp/PageDown/wheel; unguarded getFocusId
+- Fixed: highlight colour from the picker is validated; picker needs Kodi 20+
+- Fixed: shortcut addon detection for quoted ids, spaces, RunScript and plugin URLs without a slash
+- New: Recent section, Configure row and per-item menu (move / hide / edit / remove) in the popup, last position remembered
+- New: import Kodi Favourites, edit/rename shortcuts and icons
+- New: browse goes back one level; backup, restore and reset; scrollbar; A-Z sorting; confirmation before removing and before restarting Kodi
+- Cleanup: removed the unused migration code and reference files; localised strings; shared list dialog</news>
         <assets>
             <icon>icon.png</icon>
         </assets>
